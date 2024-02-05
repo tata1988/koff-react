@@ -1,33 +1,47 @@
-import { useState } from "react"
-import { useDispatch, useSelector } from "react-redux";
-import { addToFevorite, removeFromFevorite } from "../../store/favorite/favorite.slice";
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  addToFavorite,
+  removeFromFavorite,
+} from '../../store/favorite/favorite.js';
 
-export const FavoriteButton = ({className, id}) => {
+export const FavoriteButton = ({ className, id }) => {
+  const [hover, setHover] = useState(false);
+  const dispatch = useDispatch();
+  const favoriteList = useSelector((state) => state.favorite.favoriteList);
 
-    const [hover, setHover] = useState(false);
-    const dispatch = useDispatch();
-    const {favoriteList} = useSelector((state) => state.favorite);
+  const isFavorite = favoriteList.includes(id);
 
-    const isFavorite = favoriteList.includes(id);
-
-    const handleFavoriteClick = () => {
-        if (isFavorite) {
-            dispatch(removeFromFevorite(id))
-        } else {
-            dispatch(addToFevorite(id))
-        }
+  const handleFavoriteClick = () => {
+    if (isFavorite) {
+      dispatch(removeFromFavorite(id));
+    } else {
+      dispatch(addToFavorite(id));
     }
-    
-    return (
-        <button className={className} 
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        onClick={handleFavoriteClick}>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8.41337 13.8733C8.18671 13.9533 7.81337 13.9533 7.58671 13.8733C5.65337 13.2133 1.33337 10.46 1.33337 5.79332C1.33337 3.73332 2.99337 2.06665 5.04004 2.06665C6.25337 2.06665 7.32671 2.65332 8.00004 3.55998C8.67337 2.65332 9.75337 2.06665 10.96 2.06665C13.0067 2.06665 14.6667 3.73332 14.6667 5.79332C14.6667 10.46 10.3467 13.2133 8.41337 13.8733Z" 
-                fill={hover !== isFavorite ? "#780096" : "#FFFFFF"} 
-                stroke={hover !== isFavorite ? "#780096" : "#1C1C1C"} strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-        </button>
-    )
-}
+  };
+
+  return (
+    <button
+      className={className}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onClick={handleFavoriteClick}
+    >
+      <svg
+        width='16'
+        height='16'
+        viewBox='0 0 16 16'
+        fill='none'
+        xmlns='http://www.w3.org/2000/svg'
+      >
+        <path
+          d='M8.41301 13.8733C8.18634 13.9533 7.81301 13.9533 7.58634 13.8733C5.65301 13.2133 1.33301 10.46 1.33301 5.79332C1.33301 3.73332 2.99301 2.06665 5.03967 2.06665C6.25301 2.06665 7.32634 2.65332 7.99967 3.55998C8.67301 2.65332 9.75301 2.06665 10.9597 2.06665C13.0063 2.06665 14.6663 3.73332 14.6663 5.79332C14.6663 10.46 10.3463 13.2133 8.41301 13.8733Z'
+          fill={hover !== isFavorite ? '#780096' : '#FFFFFF'}
+          stroke={hover !== isFavorite ? '#780096' : '#1C1C1C'}
+          strokeLinecap='round'
+          strokeLinejoin='round'
+        />
+      </svg>
+    </button>
+  );
+};
